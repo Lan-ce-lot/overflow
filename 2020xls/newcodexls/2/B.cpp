@@ -15,9 +15,7 @@ int dp[5001][5001][14];
 //int dp1[5001][5001][14];
 int a[5001][5001];
 int n,m, k;
-ll lcm(int a, int b) {
-    return a / __gcd(a, b) * b;
-}
+
 // O(n*m*log(m))
 
 void st(){
@@ -60,17 +58,26 @@ int main () {
     ll ans = 0;
     cin >> n >> m >> k;
     for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= m; j++) {
-            a[i][j] = lcm(i, j);
-        }
-    }
+    	for (int j = 1; j <= m; j++) {
+    		if (a[i][j] == 0) {
+    			for (int k = 1; k * i <= n && k * j <= m; k++) {
+    				a[i * k][j * k] = i * j * k;
+				}
+			}
+		}
+	}
+//    for (int i = 1; i <= n; i++) {
+//        for (int j = 1; j <= m; j++) {
+//            a[i][j] = lcm(i, j);
+//        }
+//    }
     st();
-  for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= m; j++) {
-          printf("%5d", a[i][j]);
-      }
-      puts("");
-  }
+//  for (int i = 1; i <= n; i++) {
+//      for (int j = 1; j <= m; j++) {
+//          printf("%5d", a[i][j]);
+//      }
+//      puts("");
+//  }
     for (int i = 1; i <= n - k + 1; i++) {
         for (int j = 1; j <= m - k + 1; j++) {
             ans += rmq2dmax(i, j, i + k - 1, j + k - 1);
