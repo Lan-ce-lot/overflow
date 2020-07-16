@@ -50,10 +50,62 @@ ll read()
     return x * f;
 }
 int t, n;
+int a[maxn];
+bool vis[maxn];
+int ans = 0;
+vector<int> G[maxn];
+
+bool pre(int a, int b) {
+	if (__gcd(a, b) == 1) {
+		return 0;
+	} return 1;
+}
+
+void dfs(int num, int room) {
+	if (room >= ans) {
+		return;
+	}
+	if (num > n) {
+//		for (int j = 1; j <= room; j++) {
+//			for (auto i : G[j])
+//				cout << i << ' ';
+//			puts("");			
+//		}
+		ans = min(ans, room);
+		return;
+	}
+//	cout << num << ' ' << room << endl;
+	for (int i = 1; i <= room; i++) {
+		int flag = 0;
+		for (int j = 0; j < G[i].size(); j++) {
+			if (pre(a[num], G[i][j])) {
+				flag = 1;
+				break;
+			}
+		}
+		if (!flag) {
+//			cout << '-' << 1;
+			G[i].push_back(a[num]);
+			dfs(num + 1, room);
+			G[i].pop_back();
+		}
+	}
+	G[room + 1].push_back(a[num]);
+	dfs(num + 1, room + 1);
+	G[room + 1].pop_back();
+}
+
 
 void solve()
 {
-
+//	cout << pre(147, 49) << endl;
+	ans = INF;
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read();
+	}
+	dfs(1, 0);
+	cout << ans << endl;
 }
 
 int main()

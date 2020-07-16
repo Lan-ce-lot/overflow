@@ -49,11 +49,44 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m, x, y;
+
+int dir[8][2] = {2, 1, 1, 2, -1, 2, -2, 1, -2, -1, -1, -2, 1, -2, 2, -1};
+bool vis[15][15];
+int ans = 0;
+
+bool test(int x, int y) {
+	return x >= 0 && y >= 0 && x < n && y < m && (!vis[x][y]);
+}
+
+void dfs(int x, int y, int st) {
+	if (st == n * m) {
+		ans++;
+		return ;
+	}
+	for (int i = 0; i < 8; i++) {
+		int xx = x + dir[i][0], yy = y + dir[i][1];
+		if (xx >= 0 && xx < n && yy >= 0 && yy < m && vis[xx][yy] == 0) {
+//		if (test(xx, yy)) {
+			vis[xx][yy] = 1;
+			dfs(xx, yy, st + 1);
+			vis[xx][yy] = 0;
+		}
+	}
+}
 
 void solve()
 {
-
+	scanf("%d", &t);
+	while (t--) {
+		ans = 0;
+		memset(vis, 0, sizeof vis);
+		scanf("%d%d%d%d", &n, &m, &x, &y);
+//		n = read(), m = read(), x = read(), y = read();
+		vis[x][y] = 1;
+		dfs(x, y, 1);
+		printf("%d\n", ans);
+	}
 }
 
 int main()
