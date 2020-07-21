@@ -30,7 +30,7 @@ const double eps = 1e-6;
 const int mod = 1e9 + 7;
 #define debug(a) cout << "*" << a << "*" << endl
 const int INF = 0x3f3f3f3f;//int2147483647//ll9e18//unsigned ll 1e19
-const int maxn = 3e2 + 10;
+const int maxn = 3e4 + 10;
 //sacnf("%lf") printf("%f")
 ll read()
 {
@@ -71,15 +71,19 @@ void add_edge(int from, int to, int cap, int cost) {
 	G[to].push_back((edge){from, 0, -cost, G[from].size() - 1});
 }
 
-
+ll flow = 0;
 ll min_cost_flow(int s, int t, ll f = INF) {
-	ll ans = 0, flow = 0;
-	fill(h, h + t + 1, 0);
-	fill(prevv, prevv + t + 1, 0);
-	fill(preve, preve + t + 1, 0);
+	ll ans = 0;flow = 0;
+	memset(h, 0, sizeof h);
+	memset(prevv, 0, sizeof prevv);
+	memset(preve, 0, sizeof preve);
+//	fill(h, h + t + 1, 0);
+//	fill(prevv, prevv + t + 1, 0);
+//	fill(preve, preve + t + 1, 0);
 	while (f > 0) {
 		priority_queue<PII, vector<PII>, greater<PII> > que;
-		fill(dis,dis + t + 1, INF);
+//		fill(dis,dis + t + 1, INF);
+		memset(dis, INF, sizeof dis);
 		dis[s] = 0;
 		que.push(PII(0, s));
 		while (!que.empty()) {
@@ -98,7 +102,8 @@ ll min_cost_flow(int s, int t, ll f = INF) {
 			}
 		}
 		if (dis[t] == INF) {
-			return -1;
+//			return -1; 
+			return ans;
 		}
 		for (int v = 0; v <= t + 1; v++) h[v] += dis[v];
 		int d = f;
@@ -126,37 +131,22 @@ void init() {
 // ========================================================
 void solve()
 {
-	while (~scanf("%d%d", &n, &m)) {
-		init();
-		for (int i = 1; i <= m; i++) {
-			int a, b, c;
-			scanf("%d%d%d", &a, &b, &c);
-			add_edge(a, b, 1, c);
-		}
-		
-		res.push_back(0);
-		min_cost_flow(1, n);
-		sort(res.begin(), res.end());
-		for (int i = 1; i < res.size(); i++) {
-			sum[i] = sum[i - 1] + res[i];
-		}
-		scanf("%d", &q);
-		while (q--) {
-			ll u, v;
-			scanf("%lld%lld", &u, &v);
-			if (u * (res.size() - 1) < v) {
-				puts("NaN");
-			} else {
-				int pos = v / u;
-				ll ans = sum[pos] * u;
-				if (u * pos < v) {
-					ans += res[pos + 1] * (v - u * pos);
-				}
-				ll gc = __gcd(ans, v);
-				printf("%lld/%lld\n", ans / gc, v / gc);
-			}
-		}
+	cin >> n >> m;
+	s = 1, t = n + n;
+	add_edge(s, n + 1, INF, 0);
+	add_edge(n, t, INF, 0);
+	for (int i = 1; i <= m; i++) {
+		int a, b, c;
+		a = read(), b = read(), c = read();
+		add_edge(a + n, b, 1, c);
 	}
+	for (int i = 2; i < n; i++) {
+		add_edge(i, i + n, 1, 0);
+	}
+	
+//	cout << s << t;
+	ll aa = min_cost_flow(s, t);
+	cout << flow << ' ' << aa << endl;
 }
 
 int main()

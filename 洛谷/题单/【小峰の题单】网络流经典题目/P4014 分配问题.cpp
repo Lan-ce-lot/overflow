@@ -30,7 +30,7 @@ const double eps = 1e-6;
 const int mod = 1e9 + 7;
 #define debug(a) cout << "*" << a << "*" << endl
 const int INF = 0x3f3f3f3f;//int2147483647//ll9e18//unsigned ll 1e19
-const int maxn = 1e6+5;
+const int maxn = 3e2 + 10;
 //sacnf("%lf") printf("%f")
 ll read()
 {
@@ -49,8 +49,8 @@ ll read()
 	}
     return x * f;
 }
-//int t, n, m, S, T;
-//==============================================
+ll sum[maxn];
+// ===================================================================
 int t, n, m, s, q;
 // first->shortest dis, second->node
 typedef pair<int, int> PII;
@@ -72,7 +72,7 @@ void add_edge(int from, int to, int cap, int cost) {
 }
 
 
-ll min_cost_flow(int s, int t, ll f = INF) {
+ll min_cost_flow(int s, int t, ll f = INF) {// 最小费用最大流，f = INF, 最小费用流，用f = s流出或流入的和 
 	ll ans = 0, flow = 0;
 	fill(h, h + t + 1, 0);
 	fill(prevv, prevv + t + 1, 0);
@@ -98,8 +98,8 @@ ll min_cost_flow(int s, int t, ll f = INF) {
 			}
 		}
 		if (dis[t] == INF) {
-//			return -1;
-			return ans;
+			return -1;
+//			return ans;
 		}
 		for (int v = 0; v <= t + 1; v++) h[v] += dis[v];
 		int d = f;
@@ -124,22 +124,27 @@ void init() {
 		G[i].clear();
 	}
 }
-//==============================================
+int gg[1005][1005];
+// ========================================================
 void solve()
 {
-	n = read(), m = read();
-	s = 0, t = n + 2;
+	n = read();
+	s = 0, t = n * 2 + 1;
+	int s1 =  3 * n, t1 = 5 * n + 1;
 	for (int i = 1; i <= n; i++) {
-		int te = read();
-		add_edge(i, i + 1, INF - te, 0);
-	} 
-	add_edge(s, 1, INF, 0);
-	add_edge(n + 1, t, INF, 0);
-	for (int i = 1; i <= m; i++) {
-		int te = read(), te1 = read(), te2 = read();
-		add_edge(te, te1 + 1, INF, te2);
+		add_edge(s, i, 1, 0);
+		add_edge(n + i, t, 1, 0);
+		add_edge(s1, 3 * n + i, 1, 0);
+		add_edge(4 * n + i, t1, 1, 0);
+		for (int j = 1; j <= n; j++) {
+			 gg[i][j] = read();
+			 add_edge(i, j + n, 1, gg[i][j]);
+			 add_edge(3 * n + i, 4 * n + j, 1, -gg[i][j]);
+		}
 	}
-	cout << min_cost_flow(s, t);
+	
+	cout << min_cost_flow(s, t, n) << endl << -min_cost_flow(s1, t1, n) << endl;
+
 }
 
 int main()

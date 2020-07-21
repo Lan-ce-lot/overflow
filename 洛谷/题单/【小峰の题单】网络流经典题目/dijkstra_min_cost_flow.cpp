@@ -71,9 +71,10 @@ void add_edge(int from, int to, int cap, int cost) {
 	G[to].push_back((edge){from, 0, -cost, G[from].size() - 1});
 }
 
-
+ll flow;
 ll min_cost_flow(int s, int t, ll f = INF) {
-	ll ans = 0, flow = 0;
+	ll ans = 0;
+	flow = 0;
 	fill(h, h + t + 1, 0);
 	fill(prevv, prevv + t + 1, 0);
 	fill(preve, preve + t + 1, 0);
@@ -98,7 +99,7 @@ ll min_cost_flow(int s, int t, ll f = INF) {
 			}
 		}
 		if (dis[t] == INF) {
-			return -1;
+			return ans;
 		}
 		for (int v = 0; v <= t + 1; v++) h[v] += dis[v];
 		int d = f;
