@@ -63,7 +63,6 @@ void solve()
     {
         for (int j = 0; j < i; j++)
         {
-
             if (num[i] > num[j])
                 dp[i] = max(dp[i], dp[j] + 1);
         }

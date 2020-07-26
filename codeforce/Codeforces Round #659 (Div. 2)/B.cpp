@@ -50,35 +50,74 @@ ll read()
     return x * f;
 }
 int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int idx[maxn];
+int par[maxn];
+int find(int x) {
+	if (x == idx[x]) return idx[x];
+	else {
+		idx[x] = find(idx[x]);
+		return idx[x];
+	}
+}
+
+void unite(int a, int b) {
+	a = find(a), b = find(b);
+	if (a != b) {
+		idx[a] = b;
+	}
+}
+
 void solve()
 {
-	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
-	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
+	t = read();
+	while (t--) {
+		
+		int flag = 0;
+		n = read();
+		for (int i = 0; i <= n; i++) idx[i] = i;
+		string a1, b1;
+		cin >> a1 >> b1;
+		for (int i = 0; i < n; i++) {
+			if (a1[i] > b1[i]) {
+				flag = 1;
+				break;
 			}
 		}
+		if (flag) {
+			cout << -1 << endl;
+			continue;
+		}
+		for (int i = 0, j = 1; i < n; i++) {
+			idx[i] = i;
+			while (j < n && a1[i] == a1[j] && a1[j] <= b1[i]) {
+				idx[i] = j;
+				j++;
+			}
+		}
+		int ans = 0;
+		for (int i = 0, j = 0; i < n; i++) {			
+			while (a1[i] == b1[i] && i < n) {
+				i++;
+			}
+			if (i >= n) break;
+//			if (i == n - 1) {
+//				ans ++;
+//				break;
+//			}
+			if (a1[i] == a1[i + 1]) {
+				unite(i, i + 1);
+			}
+//			cout << i << idx[i] << ' ' << idx[i + 1] << endl;
+			if (a1[i] != b1[i]) {
+				char c = b1[i];
+				string tem(idx[i] - i + 1, c);
+				a1 = a1.substr(0, i) + tem + a1.substr(idx[i] + 1, n - idx[i] + 1);	
+			}
+			ans++;
+		}
+		cout << ans << endl;
+		
 	}
-	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
-	}
-	cout << res << endl;
 }
 
 int main()

@@ -49,35 +49,69 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int t, n, m;
+const int N = 16, M = 1 << 11, K = 110;
+ll dp[2][M][M];
+vector<int> state;
+vector<int> head[M];
+int line[maxn];
+int cnt[maxn];
+int ma[1005][1005];
+bool check(int s) {
+	for (int i = 0; i < m; i++) {
+		if ((s >> i & 1) && ((s >> i + 1 & 1) || (s >> i + 2 & 1))) {
+			return 0;
+		}
+	}return 1;
+}
+
+inline int lowbit(int x) {
+	return x & -x;
+}
+
+int count(int s) {
+	int res = 0;
+	while (s > 0) {
+		res ++;
+		s -= lowbit(s);
+	} return res;
+}
+
 void solve()
 {
-	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
+	n = read(), m = read();
+	char s;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			cin >> s;
+			if (s == 'P') {
+				line[i] += (1 << (j - 1));
+			} 
+		}
 	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
+	for (int i = 0; i < 1 << m; i++) {
+		if (check(i)) {
+			state.push_back(i);
+			cnt[i] = count(i);
+		}
+	}
+	
+	for (int i = 1; i <= n; i++) {
+		for (int j = 0; j < state.size(); j++) {
+			for (int k = 0; k < state.size(); k++) {
+				for (int u = 0; u < state.size(); u++) {
+					int a = state[j], b = state[k], c = state[u];
+					if (a & b | a & c | b & c) continue;
+					if (((line[i] | b) > line[i]) | ((line[i - 1] | a) > line[i - 1])) continue;
+					dp[i & 1][j][k] = max(dp[i & 1][j][k], dp[i - 1 & 1][u][j] + cnt[b]);
+				}
 			}
 		}
 	}
 	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
-	}
+    for (int i = 0; i < state.size(); i ++ )
+        for (int j = 0; j < state.size(); j ++ )
+            res = max(res * 1ll, dp[n & 1][i][j]);
 	cout << res << endl;
 }
 

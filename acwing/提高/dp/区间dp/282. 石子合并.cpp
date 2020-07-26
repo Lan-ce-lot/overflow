@@ -50,35 +50,26 @@ ll read()
     return x * f;
 }
 int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int a[maxn], dp[1005][1005];
+int sum[maxn];
 void solve()
 {
 	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
+	for (int i = 1; i <= n; i++) cin >> a[i];
+	for (int i = 1; i <= n; i++) {
+		sum[i] = sum[i - 1] + a[i];
 	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
+	
+	for (int len = 2; len <= n; len++) {
+		for (int i = 1; i + len - 1 <= n; i++) {
+			int l = i, r = len + i - 1;
+			dp[l][r] = INF;
+			for (int k = l; k < r; k++) {
+				dp[l][r] = min(dp[l][r], dp[l][k] + dp[k + 1][r] + sum[r] - sum[l - 1]);
 			}
 		}
 	}
-	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
-	}
-	cout << res << endl;
+	cout << dp[1][n] << endl;
 }
 
 int main()

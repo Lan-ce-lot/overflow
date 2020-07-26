@@ -49,36 +49,27 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int t, n, m;
+int a[maxn], b[maxn], d[maxn], dp[10005][10005];
 void solve()
 {
 	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
+	for (int i = 1; i <= n; i++) {
+		int tem = read();
+		a[tem] = i;
 	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
-			}
-		}
+	for (int i = 1; i <= n; i++) {
+		int tem = read();
+		int x = a[tem];
+		b[i] = x;
 	}
-	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
+	int len = 1;
+	d[1] = b[1];
+	for (int i = 2; i <= n; i++) {
+		if (d[len] < b[i]) d[++len] = b[i];
+		else *lower_bound(d + 1, d + 1 + len, b[i]) = b[i];
 	}
-	cout << res << endl;
+	printf("%d\n", len);
 }
 
 int main()

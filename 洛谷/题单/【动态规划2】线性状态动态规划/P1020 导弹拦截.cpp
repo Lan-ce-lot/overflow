@@ -46,29 +46,39 @@ int t, n;
 int a[maxn], d1[maxn], d2[maxn], f[maxn], i, j, x;
 void solve()
 {
-    scanf("%d",&n);
-    for (i=1;i<=n;i++)
-        for (j=i+1;j<=n;j++)
-        {
-            scanf("%d",&x);
-            if (f[j]==0||f[j]>f[i]+x) 
-                f[j]=f[i]+x; 
-        }
-    printf("%d\n",f[n]); 
 
-//	while (read(a[++n]));
-////	cout << 1;
-//	n--;
-//	int len1 = 1, len2 = 1;
-//	d1[1] = d2[1] = a[1];
-//	for (int i = 2; i <= n; i++) {
-//		if (d1[len1] >= a[i]) d1[++len1] = a[i];
-//		else *upper_bound(d1 + 1, d1 + 1 + len1, a[i], greater<int>()) = a[i];
-//		if (d2[len2] < a[i]) d2[++len2] = a[i];
-//		else *lower_bound(d2 + 1, d2 + 1 + len2, a[i]) = a[i];
+	while (~scanf("%d", &a[++n]));
+//	cout << n;
+	n--;
+//	while (~scanf("%d", &a[++n]));
+//	cout << n;
+//n--;
+//	memset(d1, 0, sizeof(d1));
+//	memset(d2, INF, sizeof(d2));
+//	for (int i = 1; i <= n; i++) {
+//		
+//		*upper_bound(d1 + 1, d1 + 1 + n, a[i], greater<int>()) = a[i];
+//		*lower_bound(d2 + 1, d2 + 1 + n, a[i]) = a[i];
 //	}
-//	printf("%d\n%d", len1, len2);
-//	return;
+//	for (int i = 0; i <= n * 2; i++) cout << d1[i] << ' ' ;
+//	puts("");
+//	for (int i = 0; i <= n * 2; i++) cout << d2[i] << ' ' ;
+//	cout << lower_bound(d1 + 1, d1 + n + 1, INF) - d1 - 1 << endl;
+//	cout << lower_bound(d2 + 1, d2 + n + 1, INF) - d2 - 1 << endl;
+	
+	
+	int len1 = 1, len2 = 1;
+	d1[1] = d2[1] = a[1];
+	for (int i = 2; i <= n; i++) {
+		if (d1[len1] >= a[i]) d1[++len1] = a[i];
+		else *upper_bound(d1 + 1, d1 + 1 + len1, a[i], greater<int>()) = a[i];
+	}
+	for (int i = 2; i <= n; i++) {
+		if (d2[len2] < a[i]) d2[++len2] = a[i];
+		else *lower_bound(d2 + 1, d2 + 1 + len2, a[i]) = a[i];
+	}
+	printf("%d\n%d", len1, len2);
+	return;
 }
 
 int main()

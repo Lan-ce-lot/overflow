@@ -49,36 +49,27 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int t, n, dp[2005][2005];
+
 void solve()
 {
-	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
-	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
+	string str1, str2;
+	cin >> str1>> str2;
+//	cout << str1.size() << str2.size() << endl;
+	int len1 = str1.size(), len2 = str2.size();
+	for (int i = 1; i <= len1; i++) dp[i][0] = i;
+	for (int i = 1; i <= len2; i++) dp[0][i] = i;
+	for (int i = 1; i <= len1; i++) {
+		for (int j = 1; j <= len2; j++) {
+			dp[i][j] = min(dp[i][j - 1] + 1, dp[i - 1][j] + 1);
+			if (str1[i - 1] == str2[j - 1]) {
+				dp[i][j] = min(dp[i][j], dp[i - 1][j - 1]);
+			} else {
+				dp[i][j] = min(dp[i][j], dp[i - 1][j - 1] + 1);
 			}
 		}
 	}
-	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
-	}
-	cout << res << endl;
+	cout << dp[len1][len2] << endl;
 }
 
 int main()

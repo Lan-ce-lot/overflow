@@ -50,35 +50,61 @@ ll read()
     return x * f;
 }
 int t, n;
-char str[100];
-int dp[1000][1000];//   第i个字母，且kmp第j个状态 
-int ne[1000];
+int a[maxn];
 void solve()
 {
-	cin >> n;
-	cin >> str + 1;
-	int m = strlen(str + 1);
-	for (int i = 2, j = 0; i <= m; i++) {
-		while (j && str[i] != str[j + 1]) j = ne[j];
-		if (str[i] == str[j + 1]) j++;
-		ne[i] = j;
-	}
-	dp[0][0] = 1;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			for (char k = 'a'; k <= 'z'; k++) {
-				int u = j;
-				while (u && str[u + 1] != k) u = ne[u];
-				if (str[u + 1] == k) u++;
-				if (u < m) dp[i + 1][u] = (dp[i + 1][u] + dp[i][j]) % mod;
+	cin >> t;
+	while (t--) {
+		n = read();
+		int max_a = 0;
+		for (int i = 1; i <= n; i++) {
+			a[i] = read();
+			max_a = max(max_a, a[i]);
+		}
+		// a b
+//		map<int, char> M;
+//		M[0] = 'a';
+//		M[1] = 'b';
+//		map<char, int> M1;
+//		M1['a'] = 1;
+//		M1['b'] = 0;
+		if (max_a == 0) {
+			for (int i = 0; i <= n; i++) {
+				if (i & 1) cout << 'a' << endl;
+				else cout << 'b' << endl;
+			}
+			continue;
+		}
+		string a1 = "", b1 = "", tem;
+		for (int i = 1; i <= max_a; i++) a1 += "a";
+		cout << a1 << endl;
+//		puts("");
+		for (int i = 1; i <= n; i++) {
+			for (int j = 0; j < max_a; j++) {
+				if (i & 1) {
+					if (j == 0) b1 = "";
+					if (j < a[i]) {
+						b1 += a1[j];
+					}
+					else {
+						b1 += char('a' + (a1[j] - 'a' + 1) % 26);
+					}
+				} else {
+					if (j == 0) a1= "";
+					if (j < a[i]) {
+						a1 += b1[j];
+					} else {
+						a1 += char('a' + (b1[j] - 'a' + 1) % 26);
+					}
+				}
+			}
+			if (i & 1) {
+				cout << b1 << endl;
+			} else {
+				cout << a1 << endl;
 			}
 		}
 	}
-	int res = 0;
-	for (int i = 0; i < m; i++) {
-		res = (res + dp[n][i]) % mod;
-	}
-	cout << res << endl;
 }
 
 int main()
