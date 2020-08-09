@@ -106,7 +106,7 @@ vector<int> sub(vector<int> &A, vector<int> &B)
     reverse(C.begin(), C.end());
     return C;
 }
-
+// A要反过来
 vector<int> mul(vector<int> &A, int B)
 {
     vector<int> C;
