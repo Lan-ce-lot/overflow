@@ -49,11 +49,42 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m;
+
+int pa[maxn];
+int find(int x) {
+	if (x == pa[x]) return x;
+	else return pa[x] = find(pa[x]);
+}
+
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) {
+		pa[x] = y;
+	}
+}
 
 void solve()
 {
-
+	
+	while (~scanf("%d", &n)) {
+		int ans = 0;
+		if (n == 0) {
+			return;
+		}
+		m = read();
+		for (int i = 1; i <= n; i++) {
+			pa[i] = i;
+		}
+		for (int i = 1; i <= m; i++) {
+			int a = read(), b = read();
+			unite(a, b);
+		}
+		for (int i = 1; i <= n; i++) {
+			if (i == pa[i]) ans++;
+		}
+		cout << ans - 1 << endl;
+	}
 }
 
 int main()

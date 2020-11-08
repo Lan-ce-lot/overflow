@@ -51,9 +51,42 @@ ll read()
 }
 int t, n;
 
+
+
+bool vis[1000][1000];
+int res = 0;vector<int> G[maxn];
+void dfs(int now, int step) {res = max(step, res);
+	if (step >= n + (n - 3) * n / 2) {
+		
+		return;
+	}
+	
+	// n + (n - 3) * n / 2
+	for (int i = 0; i < G[now].size(); i++) {
+		int to = G[now][i];
+		if (!vis[to][now]) {
+			vis[to][now] = vis[now][to] = 1;
+			dfs(to, step + 1);
+			vis[to][now] = vis[now][to] = 0;
+		}
+	}
+}
+
+
 void solve()
 {
-
+	t = read();
+	while (t--) {
+//		int res = 0;
+		res = 0;
+		n = read();
+		ll tp = (n - 1) / 2;
+		if (n & 1)
+			printf("%lld\n", tp * (tp - 1) * 2 + tp * 3);
+		else
+			printf("%lld\n", tp * (tp + 1) * 2 + 1);		
+		
+	} 
 }
 
 int main()

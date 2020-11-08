@@ -50,10 +50,44 @@ ll read()
     return x * f;
 }
 int t, n;
+int pa[maxn], fa[maxn];
+int find(int a) {
+	if (a == pa[a]) {
+		return a;
+	} else {
+		return pa[a] = find(pa[a]);
+	}
+}
+
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) {
+		pa[y] = x;
+	}
+}
 
 void solve()
 {
-
+	int ans = 0;
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		pa[i] = i;
+	}
+	
+	for (int i = 1; i <= n; i++) {
+		while (true) {
+			int a = read();
+			fa[a] = 1;
+			if (a == 0) break;
+			else {
+				unite(i, a);
+			}
+		}
+	}
+	for (int i = 1; i <= n; i++) {
+		if (pa[i] == i || fa[i] == 0) ans ++;
+	}
+	cout << ans << endl;
 }
 
 int main()

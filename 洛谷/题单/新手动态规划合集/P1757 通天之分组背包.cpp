@@ -49,11 +49,27 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m, v[1005][1005],w[1005][1005], dp[maxn], s[maxn];
 
 void solve()
 {
-
+	m = read(), n = read();
+	int con = 0;
+	for (int i = 1; i <= n; i++) {
+		int aa = read(), bb = read(), cc = read();
+		v[cc][++s[cc]] = aa, w[cc][s[cc]] = bb;
+		con = max(con, cc);
+	}
+	for (int i = 1; i <= con; i++) {
+		for (int j = m; j >= 0; j--) {
+			for (int k = 1; k <= s[i]; k++) {
+				if (v[i][k] <= j) {
+					dp[j] = max(dp[j], dp[j - v[i][k]] + w[i][k]);
+				}
+			}
+		}
+	}
+	cout << dp[m] << endl;
 }
 
 int main()

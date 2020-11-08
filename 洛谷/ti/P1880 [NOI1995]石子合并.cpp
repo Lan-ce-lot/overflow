@@ -49,11 +49,38 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-
+int t, n, a[maxn], dp[1005][1005], dp1[1005][1005];
+int sum[maxn];
+// f[i][j] = max(f[i][k] + f[k+1][j] + d(i,j))
 void solve()
 {
-
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read();
+		a[i + n] = a[i];
+//		sum[i] = sum[i - 1] + a[i];
+	}
+	for (int i = 1; i <= n * 2; i++) {
+		sum[i] = sum[i - 1] + a[i];
+	}
+	
+	for (int len = 2; len <= n; len++) {
+		for (int l = 1; l + len - 1 <= n * 2 ; l++) {
+			int r = l + len - 1;
+			dp[l][r] = -INF;
+			dp1[l][r] = INF;
+			for (int k = l; k < r; k++) {
+				dp[l][r] = max(dp[l][r], dp[l][k] + dp[k + 1][r] + sum[r] - sum[l - 1]);
+				dp1[l][r] = min(dp1[l][r], dp1[l][k] + dp1[k + 1][r] + sum[r] - sum[l - 1]);
+			}
+		}
+	}
+	int maxx = -INF, minn = INF;
+	for (int i = 1; i <= n; i++){
+		minn = min(minn, dp1[i][i + n - 1]);
+		maxx = max(maxx, dp[i][i + n - 1]);
+	}
+	cout << minn << '\n' << maxx << '\n'; 
 }
 
 int main()

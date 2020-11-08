@@ -49,11 +49,23 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, ans = 0;
 
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		int l = read(), r = read();
+//		if (l == 1 && r == 1) {
+//			puts("YES");continue;
+//		}
+		if (l * 1.0 < (r + 1) / 2.0 ) {
+			puts("NO");
+		} else {
+			puts("YES");
+		}
+//		cout << ans << endl;
+	}
 }
 
 int main()

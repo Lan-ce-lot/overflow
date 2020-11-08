@@ -49,11 +49,60 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m, v;
+int c[maxn], d[maxn];
+ll p[maxn], all_c[maxn], all_d[maxn];
+ll dp[maxn];
+int find(int x) {
+	if (x == p[x]) {
+		return x;
+	} else {
+		
+		p[x] = find(p[x]);
+		
+		return p[x];
+	}
+}
 
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) {
+		all_c[y] += all_c[x];
+		all_d[y] += all_d[x];
+		p[x] = y;
+	}
+}
+int zfp_c[maxn], zfp_d[maxn], tot = 1;
 void solve()
 {
-
+	
+	n = read(), m = read(), v = read();
+	for (int i = 1; i <= n; i++) {
+		p[i] = i;
+	}
+	for (int i = 1; i <= n; i++) {
+		all_c[i] = c[i] = read();
+		all_d[i] = d[i] = read();
+		
+	}
+	for (int i = 1; i <= m; i++) {
+		int aa = read(), bb = read();
+		unite(aa, bb);
+	}
+	for (int i = 1; i <= n; i++) {
+		if (find(i) == i) {
+			
+			zfp_c[tot] = all_c[i];
+			zfp_d[tot] = all_d[i]; 
+			tot++;
+		} 
+	}
+	for (int i = 1; i < tot; i++) {
+		for (int j = v; j >= zfp_c[i]; j--) {
+			dp[j] = max(dp[j], dp[j - zfp_c[i]] + zfp_d[i]);
+		}
+	}
+	cout << dp[v] << endl;
 }
 
 int main()

@@ -49,11 +49,26 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-
+ll t, n, k;
+ll a[maxn];
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		ll res = 0;
+		n = read(), k = read();
+		ll minn = INF;
+		for (int i = 1; i <= n; i++) {
+			a[i] = read();
+			minn = min(minn, a[i]);
+		}
+		sort(a + 1, a + n + 1);
+		for (int i = n - k; i <= n; i++) {
+			res += a[i];
+		}
+		minn = min(0ll, minn);
+		cout << res << endl;
+	}
 }
 
 int main()

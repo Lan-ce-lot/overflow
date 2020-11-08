@@ -50,10 +50,70 @@ ll read()
     return x * f;
 }
 int t, n;
-
+int a[maxn];
+//A1 = 能被5整除的数字中所有偶数的和；
+//A2 = 将被5除后余1的数字按给出顺序进行交错求和，即计算n1-n2+n3-n4...；
+//A3 = 被5除后余2的数字的个数；
+//A4 = 被5除后余3的数字的平均数，精确到小数点后1位；
+//A5 = 被5除后余4的数字中最大数字。
 void solve()
 {
-
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read();
+	}
+	int A1 = 0, A2 = 0, A3 = 0, co4 = 0,  A5 = 0;
+	double A4 = 0.0;
+	int flag = 0;
+	for (int i = 1; i <= n; i++) {
+		if (a[i] % 10 == 0) {
+			A1 += a[i];
+		}
+		if (a[i] % 5 == 1) {
+			if (!flag) {
+				flag = 1;
+				A2 += a[i];
+			} else {
+				flag = 0;
+				A2 -= a[i];
+			}
+		}
+		if (a[i] % 5 == 2) {
+			A3++;
+		}
+		if (a[i] % 5 == 3) {
+			co4++;
+			A4 += a[i];
+		}
+		if (a[i] % 5 == 4) {
+			A5 = max(A5, a[i]);
+		}
+	}
+	if (A1 == 0) {
+		printf("N ");
+	} else {
+		printf("%d ", A1);
+	}
+	if (A2 == 0) {
+		printf("N ");
+	} else {
+		printf("%d ", A2);
+	}
+	if (A3 == 0) {
+		printf("N ");
+	} else {
+		printf("%d ", A3);
+	}
+	if (A4 == 0) {
+		printf("N ");
+	} else {
+		printf("%.1f ", A4 / co4);
+	}
+	if (A5 == 0) {
+		printf("N\n");
+	} else {
+		printf("%d\n", A5);
+	}
 }
 
 int main()

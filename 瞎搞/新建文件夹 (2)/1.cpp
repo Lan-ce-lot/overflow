@@ -6,7 +6,7 @@
  > Description:
  ************************************************************************/
 //#include <bits/stdc++.h>
-//#pragma comment(linker, "/STACK:102400000,102400000")//add_stack
+#pragma comment(linker, "/STACK:102400000,102400000")//add_stack
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -24,14 +24,28 @@
 #include <set>
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> PII;
 const double pi = acos(-1.0);
-const double eps = 1e-6;
+const int eps = 1e-10;
 const int mod = 1e9 + 7;
 #define debug(a) cout << "*" << a << "*" << endl
 const int INF = 0x3f3f3f3f;//int2147483647//ll9e18//unsigned ll 1e19
-const int maxn = 1000005;
-//sacnf("%lf") printf("%f")
+const int maxn = 1e5;
+struct node
+{
+    int x;
+    string str;
+}a[maxn];
+
+bool cmp(node a, node b)
+{
+    if (a.x == b.x)
+        return a.str < b.str;
+    return a.x > b.x;
+}
+bool cmp1(node a, node b)
+{
+    return a.str > b.str;
+}
 ll read()
 {
     ll x = 0,f = 1;
@@ -50,18 +64,20 @@ ll read()
     return x * f;
 }
 int t, n;
-
-void solve()
-{
-
-}
-
 int main()
 {
-
-//    freopen("F:/Overflow/in.txt","r",stdin);
 //    ios::sync_with_stdio(false);
-    solve();
+	int n;
+	scanf("%d\n",&n);
+	char name[n][101];
+	char str[101]={0};
+	for(int i=0;i<n;i++){
+		scanf("%s[^\n]",str);
+		strcpy(name[i],str);
+	}
+	for (int i = 0; i < n; i++) {
+		printf("%s\n", name[i]);
+	}
     return 0;
 }
 

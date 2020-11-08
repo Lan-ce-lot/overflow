@@ -50,10 +50,25 @@ ll read()
     return x * f;
 }
 int t, n;
-
+int a[maxn];
 void solve()
 {
-
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read(); 
+	}
+	int res = 0;
+	for (int i = 1; i <= n; i++) {
+		int max_ = -INF, min_ = INF;
+		for (int j = i; j <= n; j++) {
+			max_ = max(max_, a[j]);
+			min_ = min(min_, a[j]);
+			if (max_ - min_ == j - i) {
+				res++;
+			}
+		}
+	}
+	cout << res << endl;
 }
 
 int main()

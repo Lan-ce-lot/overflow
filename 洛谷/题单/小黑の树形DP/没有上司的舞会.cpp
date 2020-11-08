@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  > FileName:
  > Author:      Lance
  > Mail:        lancelot_hcs@qq.com
@@ -50,10 +50,58 @@ ll read()
     return x * f;
 }
 int t, n;
+int a[maxn];
+int h[maxn], e[maxn], ne[maxn], tot = 1;
 
+int dp[10005][2];
+void add(int a, int b) {
+	e[tot] = b, ne[tot] = h[a], h[a] = tot++;
+}
+
+int ans = 0;
+void dfs(int u, int fa) {
+	
+	
+//	debug(1);
+//debug(h[u]);
+	dp[u][1] = a[u];
+	for (int i = h[u]; i; i = ne[i]) {
+		int to = e[i];
+		
+		if (to == fa) {
+			continue;
+		}
+		dfs(to, u);
+		dp[u][0] += max(dp[to][1], dp[to][0]);
+		dp[u][1] += dp[to][0];
+	}
+}
+bool is_root[maxn];
 void solve()
 {
-
+	// 哈哈哈哈哈
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read();
+	}
+	memset(h, 0, sizeof h);
+	for (int i = 0; i < n - 1; i++) {
+		int aa = read(), bb = read();
+		add(bb, aa);
+		is_root[aa] = 1;
+	}
+	int root = 1;
+	while (is_root[root]) {
+		root++;
+	}
+//	debug(root);
+	dfs(root, 0);
+//	debug(dp[root][1]);
+//	for (int i = 1; i <= 7; i++) cout << dp[i][0] << ' ' << dp[i][1] << endl;
+	cout << max(dp[root][0], dp[root][1]) << endl;
+	
+	
+	
 }
 
 int main()

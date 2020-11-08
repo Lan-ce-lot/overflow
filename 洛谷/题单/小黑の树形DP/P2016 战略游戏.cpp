@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  > FileName:
  > Author:      Lance
  > Mail:        lancelot_hcs@qq.com
@@ -51,9 +51,46 @@ ll read()
 }
 int t, n;
 
+int e[maxn], ne[maxn], h[maxn], tot = 1;
+int dp[maxn][2], ans = 0; 
+void add(int a, int b) {
+	e[tot] = b, ne[tot] = h[a], h[a] = tot ++;
+}
+
+
+void dfs(int u, int fa) {
+	dp[u][0] = 0;
+	dp[u][1] = 1;
+	for (int i = h[u]; i; i = ne[i]) {
+		int to = e[i];
+		if (fa == to) continue;
+		
+		dfs(to, u);
+		dp[u][0] += dp[to][1];
+		dp[u][1] += min(dp[to][0], dp[to][1]);
+		
+	}
+	
+	
+	
+}
+
 void solve()
 {
-
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		int a = read(), b = read();
+		for (int i = 1; i <= b; i++) {
+			int c = read();
+			add(a, c);
+			add(c, a);
+		}
+		
+	}
+	
+	dfs(0, -1);
+	ans = min(dp[0][0], dp[0][1]);
+	cout << ans << endl;
 }
 
 int main()

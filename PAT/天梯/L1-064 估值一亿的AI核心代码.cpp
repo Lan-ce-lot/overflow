@@ -53,7 +53,24 @@ int t, n;
 
 void solve()
 {
-
+	n = read();
+	
+	while (n --) {
+		string str;
+		cin >> str;
+		cout << str << endl;
+		cout << "AI: ";
+		// can you、could you
+		// 把原文中所有大写英文字母变成小写 
+		// 消除原文中多余空格：把相邻单词间的多个空格换成 1 个空格，把行首尾的空格全部删掉，把标点符号前面的空格删掉I
+		// 把原文中所有独立的 I 和 me 换成 you；
+		// 在一行中输出替换后的句子作为 AI 的回答
+		
+		if () {
+			
+		}
+		
+	}
 }
 
 int main()

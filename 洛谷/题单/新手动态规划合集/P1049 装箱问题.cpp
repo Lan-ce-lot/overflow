@@ -49,11 +49,22 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, v, V[maxn], dp[maxn];
 
 void solve()
 {
-
+	v = read(), n = read();
+	for (int i = 1; i <= n; i++) {
+		V[i] = read();
+		
+	}
+//	for (int i = 0; i <= v; i++) dp[i] = i; 
+	for (int i = 1; i <= n; i++) {
+		for (int j = v; j >= V[i]; j--) {
+			dp[j] = max(dp[j], dp[j - V[i]] + V[i]);
+		}
+	}
+	cout << v - dp[v] << endl;
 }
 
 int main()

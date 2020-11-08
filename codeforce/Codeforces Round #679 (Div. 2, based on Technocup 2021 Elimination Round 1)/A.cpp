@@ -50,10 +50,23 @@ ll read()
     return x * f;
 }
 int t, n;
-
+ll a[maxn];
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		n = read();
+		for (int i = 0; i < n; i++) {
+			a[i] = read();
+		} 
+		for (int i = 0; i < n; i++) {
+			if (i == 0)printf("%lld", (i & 1) ? a[i - 1] : -a[i + 1]);
+			else {
+				printf(" %lld", (i & 1) ?  a[i - 1] : -a[i + 1]);
+			}
+		}
+		puts("");
+	} 
 }
 
 int main()

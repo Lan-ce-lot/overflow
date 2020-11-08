@@ -49,11 +49,48 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m;
+int pa[maxn]; 
+struct node {
+	int a, b, c;
+}N[maxn];
+
+bool cmp(node a, node b) {
+	return a.c > b.c;
+}
+
+int find(int x) {
+	if (x == pa[x]) return x;
+	else return pa[x] = find(pa[x]);
+}
+
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) pa[x] = y;
+}
 
 void solve()
 {
-
+	n = read(), m = read();
+	for (int i = 0; i <= n; i++) {
+		pa[i] = i;
+		pa[i + n] = i + n;
+	}
+	for (int i = 1; i <= m; i++) {
+		N[i] = {read(), read(), read()};
+		
+	}
+	sort(N + 1, N + 1 + m, cmp);
+	int ans = 0;
+	for (int i = 1; i <= m; i++) {
+		if (find(N[i].a) == find(N[i].b) || find(N[i].a + n) == find(N[i].b + n)) {
+			ans = N[i].c;
+			break;
+		} else {
+			unite(N[i].a, N[i].b + n);
+			unite(N[i].a + n, N[i].b);
+		}
+	}printf("%d\n", ans);
 }
 
 int main()

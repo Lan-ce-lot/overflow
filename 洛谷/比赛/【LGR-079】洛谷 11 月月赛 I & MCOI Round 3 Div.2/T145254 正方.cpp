@@ -53,7 +53,22 @@ int t, n;
 
 void solve()
 {
+	n = read(); 
+	while (t--) {
+		int a = read(), b = read(), c = read(), d = read();
+		if () {
+			puts("1");
+		} else  if () {
+			puts("4")
+		} else {
+			puts("8");
+		}
+	}
 
+	
+	
+	
+	
 }
 
 int main()

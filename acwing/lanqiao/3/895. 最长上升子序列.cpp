@@ -50,10 +50,23 @@ ll read()
     return x * f;
 }
 int t, n;
-
+int a[maxn], f[maxn];
 void solve()
 {
-
+	n = read();
+	for (int i = 1; i <= n; i++) {
+		a[i] = read();
+	}
+	
+	for (int i = 1; i <= n; i++) {
+		f[i] = 1; 
+		for (int j = 1; j < i; j++) {
+			if (a[i] > a[j]) {
+				f[i] = max(f[i], f[j] + 1);
+			}
+		}
+	}
+	cout << *max_element(f + 1, f + 1 + n) << endl;
 }
 
 int main()

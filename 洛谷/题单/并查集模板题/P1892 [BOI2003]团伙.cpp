@@ -49,11 +49,53 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m;
+int ans = 0;
+int pa[maxn], pa1[maxn];
+int height[maxn];
+
+int find(int x) {
+	if (x == pa[x]) {
+		return x;
+	} else {
+		return pa[x] = find(pa[x]);
+	}
+	
+}
+
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) {
+		pa[x] = y;
+	}
+}
+
 
 void solve()
 {
-
+	n = read();
+	m = read();
+	char cc[3];
+	for (int i = 0; i <= 2 * n; i++) {
+		pa[i] = i;
+//		pa1[i] = i;
+//		height[i] = 0;
+	}
+	while (m--) {
+		scanf("%s", cc);
+		int a = read(), b = read();
+		if (cc[0] == 'E') {
+//			debug(1);
+			unite(a + n, b);
+			unite(b + n, a);
+		} else if (cc[0] == 'F') {
+			unite(a, b);
+		}
+	}
+	for(int i=1;i<=n;i++){
+        if(pa[i]==i) ans++;
+    }
+	cout << ans << "\n";
 }
 
 int main()

@@ -50,10 +50,42 @@ ll read()
     return x * f;
 }
 int t, n;
-
+int dp[10005];
+int h[10005], ans = 0;
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		n = read();
+		memset(dp, 0, sizeof dp);
+		
+		for (int i = 1; i <= n; i++) {
+			h[i] = read();
+		}
+		ans = 0;
+		for (int i = 1; i <= n; i++) {
+			dp[i] = 1;
+			for (int j = 1; j < i; j++) {
+				if (h[j] > h[i]) {
+					dp[i] = max(dp[i], dp[j] + 1);
+					
+				}
+			}ans = max(dp[i], ans);
+		}
+		
+		memset(dp, 0, sizeof dp);
+		
+		for (int i = n; i >= 1; i--) {
+			dp[i] = 1;
+			for (int j = n; j > i; j--) {
+				if (h[j] > h[i]) {
+					dp[i] = max(dp[i], dp[j] + 1);
+					
+				}
+			}ans = max(dp[i], ans);
+		}
+		cout << ans << endl;
+	}
 }
 
 int main()

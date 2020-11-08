@@ -49,11 +49,39 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m, pr[maxn], cnt = 0;
+bool vis[maxn];
+
+void get_p(int n) {
+	for (int i = 2; i <= n; i++) {
+		if (!vis[i]) {
+			pr[cnt++] = i;
+		}
+		for (int j = 0; pr[j] <= n / i; j++) {
+			vis[pr[j] * i] = 1;
+			if (i % pr[j] == 0) break;
+		}
+	}
+}
 
 void solve()
 {
-
+	get_p(maxn);
+	n = read(), m = read();
+	int co = 0;
+	for (int i = n - 1; i <= m - 1; i++) {
+		cout << pr[i];
+		co++;
+		if (i == m - 1) {
+			puts("");return;
+		}
+		if (co % 10 == 0) {
+			puts("");
+		} else {
+			printf(" ");
+		}
+	}
+	
 }
 
 int main()

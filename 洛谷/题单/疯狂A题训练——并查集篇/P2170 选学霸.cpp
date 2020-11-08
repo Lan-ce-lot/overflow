@@ -49,11 +49,54 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, m, k, ans = INF, minn = INF;
+int pa[maxn], dp[maxn], tem[maxn], tot = 1, all[maxn];
+int find(int x) {
+	if (x == pa[x]) return x;
+	else return pa[x] = find(pa[x]);
+}
 
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if (x != y) pa[x] = y, all[y] += all[x];
+}
 void solve()
 {
-
+	n = read(), m = read(), k = read();
+	for (int i = 1; i <= n; i++) {
+		pa[i] = i;
+		all[i] = 1;
+	}
+	for (int i = 1; i <= k; i++) {
+		int a = read(), b = read();
+		unite(a, b);
+	}
+	
+	for (int i = 1; i <= n; i++) {
+		if (find(i) == i) {
+//			dp[tot++] = all[i];
+			tem[tot++] = all[i];
+			
+		}
+	}
+	for (int i = 1; i < tot; i++) {
+		for (int j = n; j >= tem[i]; j--) {
+			if (abs(m - dp[j]) > abs(m - dp[j - tem[i]] - tem[i])) {
+				dp[j] = dp[j - tem[i]] + tem[i];
+			}
+		}
+	}
+	
+	for (int i = 0; i <= n; i++) {
+		if (minn > abs(dp[i] - m)) {
+			minn = abs(dp[i] - m);
+			ans = dp[i];
+		}
+	}
+	
+	
+	
+	cout << ans << endl;
 }
 
 int main()

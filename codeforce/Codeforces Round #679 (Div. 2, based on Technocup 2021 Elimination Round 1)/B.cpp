@@ -49,11 +49,60 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
-
+int t, n, m;
+int num_l[maxn], num_r[maxn], map1[1000][1000], index[maxn];
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		n = read(), m = read();
+		for (int i = 0 ; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				int a = read();
+				num_r[a] = j;
+				
+			}
+		}
+		
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				int a = read();
+				num_l[a] = j;
+			}
+		}
+		
+		for (int i = 1; i <= n * m; i++) {
+			index[i] = num_l[i] * m + num_r[i];
+			map1[num_l[i]][num_r[i]] = i;
+		}
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				printf("%d ", map1[i][j]);
+			}
+			puts("");
+		}
+//		for (int i )
+//		debug(index[6]);
+//		debug(1);
+		int tt = 0;
+		
+//		for (int i = 0; i < n; i++) {
+//			for (int j = 0; j < m; j++) {
+//				for (int k = 1; k <= m * n; k++) {
+//					if (num_r[k] == j && num_l[k] == i) {
+////						debug(num_l[k]);
+////						debug(num_r[k]);
+//						cout << k << ' ';
+//						tt++;
+//						if (tt % m == 0) puts("");
+//						break;
+//					}
+//				} 
+//			}
+//			
+//		}
+		
+	}
 }
 
 int main()

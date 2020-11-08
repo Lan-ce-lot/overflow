@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  > FileName:
  > Author:      Lance
  > Mail:        lancelot_hcs@qq.com
@@ -51,9 +51,73 @@ ll read()
 }
 int t, n;
 
+//struct node {
+//	int to, v;
+//}e[maxn];
+ll e[maxn], ne[maxn], h[maxn], tot = 1;
+ll node[maxn];
+void add(ll a, ll b) {
+	e[tot] = b, ne[tot] = h[a], h[a] = tot ++;
+}
+ll dp[maxn][2], ans = 0;
+int root = 0;
+bool vis[maxn];
+int fa[maxn];
+void dfs(int u) {
+	vis[u] = 1;
+	dp[u][0] = 0;
+	dp[u][1] = node[u];
+	for (int i = h[u]; i; i = ne[i]) {
+		int to = e[i];
+		if (to == root) {
+			dp[to][1] = -INF;
+			continue;
+		}
+		dfs(to);
+		dp[u][0] += max(dp[to][1], dp[to][0]);
+		dp[u][1] += dp[to][0];
+	}
+}
+
+void fin_c(int x) {
+	vis[x] = 1;
+	root = x;
+	while (!vis[fa[root]]) {
+		root = fa[root];
+		vis[root] = 1;
+		
+	}
+	dfs(root);
+    long long t=max(dp[root][0],dp[root][1]);
+    vis[root]=1;
+    root=fa[root]; 
+    dfs(root);
+    ans+=max(t,max(dp[root][0],dp[root][1]));
+    return;	
+	
+}
+
 void solve()
 {
-
+	n = read();
+	
+	
+	for (int i = 1; i <= n; i++) {
+		node[i] = read();
+		ll a = read();
+		
+		add(a, i);
+		fa[i] = a;
+//		add(a, i);
+	}
+    for(int i=1;i<=n;i++)
+    {
+        if(!vis[i])
+        {
+            fin_c(i);
+        }
+    }
+    printf("%lld\n",ans);	
 }
 
 int main()

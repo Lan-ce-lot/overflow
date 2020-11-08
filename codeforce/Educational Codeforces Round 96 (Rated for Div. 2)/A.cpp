@@ -49,11 +49,49 @@ ll read()
 	}
     return x * f;
 }
-int t, n;
+int t, n, ans = 0;
 
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		ans = 0;
+		n = read();
+		int tem = 0;
+		int flag = 0;
+		for (int i = 0; i * 3 <= n; i++) {
+			tem = 0;
+			if (flag == 1) break;
+			for (int j = 0; j * 5 <= n; j++) {
+				if (flag == 1) break;
+				for (int k = 0; k * 7 <= n; k++) {
+					tem = i * 3 + j * 5 + k * 7;
+					if (tem > n) continue;
+					if (tem == n) {
+						cout << i << ' ' << j << ' ' << k << endl;
+						flag = 1;
+						break;
+					}
+				}
+			}
+		}
+		if (flag == 0) cout << -1 << endl;
+//		if (n % 3 == 0 || n % 5 == 0 || n % 7 == 0 || n % 8 == 0 || n % 13 == 0) {
+//			if (n % 3 == 0) {
+//				cout << n / 3 << ' ' << 0 << ' ' << 0 << endl;
+//			} else if (n % 5 == 0) {
+//				cout << 0 << ' ' << n / 5 << ' ' << 0 << endl;
+//			} else if (n % 7 == 0) {
+//				cout << 0 << ' ' << 0 << ' ' << n / 7 << endl;
+//			} else if (n % 8 == 0) {
+//				cout << n / 8 << ' ' << n / 8 << ' ' << 0 << endl;
+//			}
+//		} else {
+//			cout << -1 << endl;
+//		}
+		
+	}
+	
 }
 
 int main()

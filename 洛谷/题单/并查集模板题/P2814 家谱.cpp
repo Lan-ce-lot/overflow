@@ -20,7 +20,7 @@
 #include <deque>
 #include <queue>
 #include <stack>
-#include <map>
+#include <unordered_map>
 #include <set>
 using namespace std;
 typedef long long ll;
@@ -50,10 +50,52 @@ ll read()
     return x * f;
 }
 int t, n;
+string tem;
 
+int pa[maxn];
+int find(int x) {
+	if (x == pa[x]) return x;
+	else return pa[x] = find(pa[x]);
+}
+void unite(int x, int y) {
+	x = find(x), y = find(y);
+	if(x != y) {
+		pa[y] = x;
+	}
+}
+string fa;
+unordered_map<string, bool> vis;
+unordered_map<string, int> M;
+unordered_map<int, string> R;
 void solve()
 {
+	for (int i = 0; i <= 500000; i++) pa[i] = i;
+	int tot = 1;
+	while (cin >> tem) {
+//		debug(tem.substr(1, tem.size()));
+		string son = tem.substr(1, tem.size());
+		if (tem[0] == '$') return ;
+		if (!vis[son]) {
+			R[tot] = son;
 
+			M[son] = tot++;
+			vis[son] = 1;
+		}
+		if (tem[0] == '#') {
+			fa = son;
+			
+		}
+		if (tem[0] == '+') {
+			unite(M[fa], M[son]);
+		}
+		if (tem[0] == '?') {
+			int ff = find(M[son]);
+//			debug(ff);
+//			debug(R[ff]);
+			cout << son << ' ' << R[ff] << '\n';
+//			printf("%s %s\n", tem + 1, R[ff]);
+		}
+	}
 }
 
 int main()
