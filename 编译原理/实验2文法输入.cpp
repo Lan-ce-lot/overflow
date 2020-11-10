@@ -200,7 +200,7 @@ void remove_left_gene(grammar &g) {
 					g.P[c].erase(g.P[c].begin() + it1);
 				}
 				string s(1,new_Vn);
-				g.P[c].push_back(s);
+				g.P[c].push_back(it.first + s);
 			}
 		}
 	}
@@ -281,7 +281,7 @@ int main()
 
 	FILE * fpin;
    	while (1) {
-       	if((fpin=fopen("D:\\work\\C++\\old\\master\\编译原理\\t.txt","r"))!=NULL) break;
+       	if((fpin=fopen("F:\\Overflow\\编译原理\\1.txt","r"))!=NULL) break;
        	else {
        		cout<<"文件路径错误\n";return 0;
 	   	}
