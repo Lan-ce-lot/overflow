@@ -119,6 +119,7 @@ void remove_left_recursion(grammar &g) {
 	for (int i = g.Vn.size() - 1; i >= 0; i--) {
 		char c = g.Vn[i]; // pi
 		for (int j = g.Vn.size() - 1; j > i; j--) {
+			
 			char tem = g.Vn[j]; // pj target
 			for (int k = 0; k < g.P[c].size(); k++) {
 				if (g.P[c][k].find(tem, 0) == 0) {
@@ -132,6 +133,7 @@ void remove_left_recursion(grammar &g) {
 				else if (!check_Vn_repeat(g.P[c][k], new_g.P[c])) {
 //					cout << c << ' ' << tem << endl; 
 //					debug(11);debug(g.P[c][k]);
+
 					new_g.P[c].push_back(g.P[c][k]);
 				}
 				
@@ -142,27 +144,30 @@ void remove_left_recursion(grammar &g) {
 		// 
 		// 消除直接左递归 
 		// 这里只考虑S开头的产生式的情况 
-		for (int j = 0; j < g.P[g.S].size(); j++) {
-			if (g.P[g.S][j][0] == g.S) {
-				char new_c = get_Vn(g.Vn);
-				g.Vn += new_c;
-//				g.P[g.S][j] = g.P[g.S][j].substr(1, g.P[g.S][j].size() - 1) + new_c;
-				for (int k = 0; k < g.P[g.S].size(); k++) {
-					if (k != j) {
-						g.P[g.S][k] += new_c;
+		int tem_len =  g.Vn.size();
+		for (int z = 0; z < tem_len; z++) {
+			char c = g.Vn[z];
+			for (int j = 0; j < g.P[c].size(); j++) {
+				if (g.P[c][j][0] == c) {
+					char new_c = get_Vn(g.Vn);
+					g.Vn += new_c;
+	//				g.P[g.S][j] = g.P[g.S][j].substr(1, g.P[g.S][j].size() - 1) + new_c;
+					for (int k = 0; k < g.P[g.Vn[z]].size(); k++) {
+						if (k != j) {
+							g.P[g.S][k] += new_c;
+						}
+					} 
+					
+					g.P[new_c].push_back(g.P[c][j].substr(1, g.P[c][j].size() - 1) + new_c);
+					g.P[new_c].push_back("@");
+					if (!exitV(g.Vt, '@')) {
+						g.Vt += "@";
 					}
-				} 
-				
-				g.P[new_c].push_back(g.P[g.S][j].substr(1, g.P[g.S][j].size() - 1) + new_c);
-				g.P[new_c].push_back("@");
-				if (!exitV(g.Vt, '@')) {
-					g.Vt += "@";
+					g.P[c].erase(g.P[c].begin() + j);
 				}
-				g.P[g.S].erase(g.P[g.S].begin());
 			}
-		} 
-//		
-		
+		}
+
 	}	
 	
 	print_G(g);
@@ -281,7 +286,7 @@ int main()
 
 	FILE * fpin;
    	while (1) {
-       	if((fpin=fopen("F:\\Overflow\\编译原理\\1.txt","r"))!=NULL) break;
+       	if((fpin=fopen("D:\\work\\C++\\old\\master\\编译原理\\t.txt","r"))!=NULL) break;
        	else {
        		cout<<"文件路径错误\n";return 0;
 	   	}
