@@ -12,6 +12,7 @@ typedef long long ll;
 const int INF=0x3f3f3f3f;
 int main()
 {
+	
 	int a=1,b=1;
 	a+=b+1;
 	printf("%d",a);
