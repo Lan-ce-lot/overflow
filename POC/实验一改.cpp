@@ -127,7 +127,25 @@ void scan(FILE * fpin) {
 		}
 	}
 }
+void solve(FILE * fpin) {
+	char ch;
+	vector<string> query;
+	string str = "";
+    while ((ch) != EOF) {
+        str = "";
+        while ((ch = fgetc(fpin)) != ';') {
 
+            str += ch;
+        }
+        query.push_back(str);
+//        cout << str << endl;
+//        cout << analysis(str) << endl;
+    }
+    for (auto it : query) {
+		cout << it << endl;
+    }
+//	scan(fpin);
+}
 int main()
 {
    	FILE * fpin;
@@ -137,7 +155,9 @@ int main()
        	else cout<<"文件路径错误\n";return 0;
     }
     printf("0.标识符 1.十进制 2.八进制 3:十六进制\n");
-   	scan(fpin);
+    
+   	solve(fpin);
+   	
 //   system("pause");
    	fclose(fpin);
     return 0;

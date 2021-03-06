@@ -79,16 +79,6 @@ void quick_sort(int q[], int l, int r)
 */
 int temp[maxn];
 ll con = 0;//逆序对Count Inversions, 注意大小
-int bsearch_1(int l, int r)
-{
-    while (l < r)
-    {
-        int mid = l + r >> 1;
-//        if (check(mid)) r = mid;
-        else l = mid + 1;
-    }
-    return l;
-}
 void merge_sort(int q[], int l ,int r)
 {
     if (l >= r)
@@ -110,10 +100,8 @@ void merge_sort(int q[], int l ,int r)
             temp[k++] = q[j++];
         }
 
-    while (i <= mid)
-    {
-        temp[k++] = q[i++];
-    }
+    while (i <= mid) {
+        temp[k++] = q[i++];}
 
     while (j <= r)
     {

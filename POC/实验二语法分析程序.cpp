@@ -130,7 +130,7 @@ int main()
 {
 	FILE * fpin;
    	while (1) {
-       	if((fpin=fopen("D:\\work\\C++\\old\\master\\编译原理\\sy2.txt","r"))!=NULL) break;
+       	if((fpin=fopen("D:\\work\\C++\\old\\master\\POC\\sy2.txt","r"))!=NULL) break;
        	else {
        		cout<<"文件路径错误\n";return 0;
 	   	}

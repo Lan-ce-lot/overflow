@@ -6,7 +6,7 @@
  > Description:
  ************************************************************************/
 //#include <bits/stdc++.h>
-#pragma comment(linker, "/STACK:102400000,102400000")//add_stack
+//#pragma comment(linker, "/STACK:102400000,102400000")//add_stack
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -24,13 +24,14 @@
 #include <set>
 using namespace std;
 typedef long long ll;
+typedef pair<int, int> PII;
 const double pi = acos(-1.0);
-const int eps = 1e-10;
+const double eps = 1e-6;
 const int mod = 1e9 + 7;
 #define debug(a) cout << "*" << a << "*" << endl
 const int INF = 0x3f3f3f3f;//int2147483647//ll9e18//unsigned ll 1e19
-const int maxn = 100005;
-
+const int maxn = 1000005;
+//sacnf("%lf") printf("%f")
 ll read()
 {
     ll x = 0,f = 1;
@@ -49,17 +50,55 @@ ll read()
     return x * f;
 }
 int t, n;
+ll a[maxn], b[maxn], c[maxn];
+
 
 void solve()
 {
-
+	t = read();
+	while (t--) {
+		n = read();
+		for (int i = 0; i < n; i++) {
+			c[i] = read();
+		}
+		for (int i = 0; i < n; i++) {
+			a[i] = read();
+		}
+		for (int i = 0; i < n; i++) {
+			b[i] = read();
+		}
+		ll ans = 0, tmp = 0;
+		for (int i = 1; i < n; i++) {
+			if (i == 1) {
+				tmp += abs(b[i] - a[i]) + 1;
+				
+			} else {
+				if (a[i] != b[i]) {
+					ans = max(ans, tmp + c[i - 1]);
+					tmp += c[i - 1] - abs(b[i] - a[i]) + 1;
+					
+				} else {
+					tmp += c[i];
+					ans = max(ans, tmp);
+					tmp = 0;
+					tmp += abs(b[i] - a[i]) + 1;
+				}
+			}
+		}
+		tmp += c[n - 1];
+		ans = max(ans, tmp);
+		
+		
+		cout << ans << endl;
+	}
 }
 
 int main()
 {
-    solve();
+
 //    freopen("F:/Overflow/in.txt","r",stdin);
 //    ios::sync_with_stdio(false);
+    solve();
     return 0;
 }
 
