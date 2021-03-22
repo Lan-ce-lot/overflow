@@ -1,49 +1,19 @@
-#include "algorithm"
-#include "iostream"
-#include "vector"
-#include "string"
+#include<cstdio>
+#include<iostream>
+typedef __int64 LL;
 using namespace std;
-struct node
+LL a[]={0,1,1,1,4,6,19,43,120,307,866,2336,6588,18373,52119,147700,422016,1207477,3471067,9999135,28893560,83665729,242826187,706074369,2056870697,6001555275,17538335077,51323792789,150390053432};
+int main()
 {
-	string name;
-	int height;
-};
-vector<node> student;
-bool cmp(node a,node b){
-	return a.height!=b.height? a.height>b.height:a.name<b.name;
-}
-int main(){
-	int n,k,m,j,i;
-	scanf("%d %d",&n,&k);
-	student.resize(n);
-	for (i=0;i<n;i++)
-	{
-		cin>>student[i].name>>student[i].height;
-	}
-	//根据身高、姓名从大到小排序
-	sort(student.begin(),student.end(),cmp);
-	int t = 0, row = k;
-	while(row) {
-		if(row == k)
-			m = n - n / k * (k - 1);//最后剩余那一行
-		else
-			m = n / k;
-		vector<string> stemp(m);
-		stemp[m / 2] = student[t].name;//最高的那位同学
-		// 左边一列
-		j = m / 2 - 1;
-		for(i = t + 1; i < t + m; i = i + 2)
-			stemp[j--] = student[i].name;
-		// 右边一列
-		j = m / 2 + 1;
-		for(i = t + 2; i < t + m; i = i + 2)
-			stemp[j++] = student[i].name;
-		// 输出当前排
-		cout << stemp[0];
-		for(i = 1; i < m; i++) cout << " " << stemp[i];
-		cout << endl;
-		t = t + m;
-		row--;
-	}
-	return 0;
+    int t,k;
+    while(~scanf("%d",&t))
+    {
+        int ca=0;
+        for(int i=0;i<t;i++)
+        {
+            scanf("%d",&k);
+            printf("Case #%d: %I64d\n",++ca,a[k]);
+        }
+    }
+    return 0;
 }
