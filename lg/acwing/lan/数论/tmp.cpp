@@ -1,43 +1,35 @@
 #include <bits/stdc++.h>
 
-
-
 using namespace std;
-const int N = (1 << 20) + 10;
+const int N = 5e5 + 5;
 #define ll long long
-ll primes[N], minp[N], cnt, n;
+ll primes[N], minp[N], cnt, n, len, ans[N];
 bool st[N];
 void get_p(int n) {
     for (int i = 2; i <= n; i++) {
-        if (!st[i]) primes[cnt++] = i, minp[i] = i;
+        if (!st[i]) primes[cnt++] = i;
         for (int j = 0; i * primes[j] <= n; j++) {
-            st[primes[j] * i] = 1, minp[primes[j] * i] = primes[j];
+            st[i * primes[j]] = 1;
             if (i % primes[j] == 0) break;
         }
     }
 }
-
+bool is_p(int x) {
+    if ()
+}
+void dfs(int last, int pro, int s) {
+    if (s == 1) {
+        ans[len++] = pro;
+        return;
+    }
+    if (s - 1 > (last < 0 ? 1 : primes[last]) && is_p(s - 1)) {
+        ans[len++] = pro * (s - 1);
+    }
+}
 
 int main() {
     get_p(N - 1);
-    int fac[30], sum[N];
-    while (cin >> n) {
-        int tot = 0, k = 0;
-        while (n > 1) {
-            int p = minp[n];
-            fac[k] = p, sum[k] = 0;
-            while (n % p == 0) {
-                n /= p;
-                sum[k]++;
-                tot++;
-            }
-            k++;
-        }
 
-        ll res = 1;
-        for (int i = 1; i <= tot; i++) res *= i;
-        for (int i = 0; i < k; i++)
-            for (int j = 1; j <= sum[i]; j++) res /= j;
-        printf("%d %lld\n", tot, res);
+    while (cin >> n) {
     }
 }

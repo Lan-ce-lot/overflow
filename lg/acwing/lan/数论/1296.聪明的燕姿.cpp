@@ -20,8 +20,17 @@ bool is_p(int x) {
         if (x % prime[i] == 0) return 0;
     return 1;
 }
+/**
+ * 暴力搜索可行的号码牌
+ * @param {
+ *     "last": u表示上一个枚举的质数是谁,比如质数为P = 2,3,5,7....: int,
+ *     "prod": 答案,约数和==输入的人的号码牌: int,
+ *     "s": s参数就代表着从一开始的S除以(1+pk+pk^2+…+pk^ak)后剩余的乘积: int,
+ * }
+ * @return if create s == 1 then return void
+ */
 void dfs(int last, int prod, int s) {
-    if (s == 1) {
+    if (s == 1) { // 已经凑出来了
         ans[len++] = prod;
         return;
     }
@@ -29,7 +38,7 @@ void dfs(int last, int prod, int s) {
         ans[len++] = prod * (s - 1);
     for (int i = last + 1; prime[i] <= s / prime[i]; i++) {
         int p = prime[i];
-        for (int j = 1 + p, t = p; j <= s; t *= p, j += t)
+        for (int j = 1 + p, t = p; j <= s; t *= p, j += t)// t，p最大次幂, j所有数的和
             if (s % j == 0) dfs(i, prod * t, s / j);
     }
 }
