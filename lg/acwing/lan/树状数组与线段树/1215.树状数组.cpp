@@ -3,35 +3,26 @@
 using namespace std;
 const int N = 1e6 + 5;
 typedef long long ll;
-ll n;
-struct node {
-    ll h, ind, v;
-} q[N], t[N];
-void mer(int l, int r) {
-    if (l >= r) return;
-    int m = l + r >> 1;
-    mer(l, m), mer(m + 1, r);
-    int k = l, i = l, j = m + 1;
-    while (i <= m && j <= r)
-        if (q[i].h <= q[j].h)
-            t[k++] = q[i++];
-        else
-            t[k++] = q[j++];
+ll n, t[N], a[N], sum[N];
+int lowbit(int x) { return x & -x; }
 
-    while (i <= m) t[k++] = q[i++];
-    while (j <= r) t[k++] = q[j++];
+void add(int u, int v) {
+    for (; u < N; u += lowbit(u)) t[u] += v;
+}
 
-    for (i = l; i < k; i++) q[i] = {t[i].h, i, t[i].v + abs(t[i].ind - i)};
+ll ask(int u) {
+    ll res = 0;
+    for (; u; u -= lowbit(u)) res += t[u];
+    return res;
 }
 
 int main() {
     cin >> n;
-    for (int i = 1; i <= n; i++) {
-        cin >> q[i].h;
-        q[i].ind = i;
-    }
-    mer(1, n);
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    for (int i = 1; i <= n; i++) sum[i] += ask(N - 1) - ask(a[i]), add(a[i], 1);
+    memset(t, 0, sizeof t);
+    for (int i = n; i > 0; i--) sum[i] += ask(a[i] - 1), add(a[i], 1);
     ll ans = 0;
-    for (int i = 1; i <= n; i++) ans += (q[i].v + 1) * q[i].v / 2;
+    for (int i = 1; i <= n; i++) ans += sum[i] * (sum[i] + 1) / 2;
     cout << ans << endl;
 }
