@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+int N, V, v[11005], w[11005], cnt, f[11005];
+int main() {
+    cin >> N >> V;
+    for (int i = 1; i <= N; i++) {
+        int a, b, s;
+        cin >> a >> b >> s;
+        int k = 1;
+        while (k <= s) {
+            cnt++;
+            v[cnt] = a * k;
+            w[cnt] = b * k;
+            s -= k;
+            k *= 2;
+        }
+        if (s > 0) {
+            cnt ++;
+            v[cnt] = a * s;
+            w[cnt] = b * s;
+        }
+    }
+    N = cnt;
+    for (int i = 1; i <= N; i++) {
+        for (int j = V; j >= v[i] ; j--) {
+            f[j] = max(f[j], f[j - v[i]] + w[i]);
+        }
+    }
+    cout << f[V] << endl;
+
+
+
+
+}
