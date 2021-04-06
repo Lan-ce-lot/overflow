@@ -5,31 +5,57 @@
  > Date:        9102.1.8
  > Description:
  ************************************************************************/
-#include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <vector>
-#include <map>
-#include <set>
-#include <bitset>
-#include <string>
-#include <cmath>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-const double pi = acos(-1.0);
-const int eps = 1e-10;
-const int mod = 1e9 + 7;
-const int INF = 0x3f3f3f3f;                             //int2147483647//ll9e18//unsigned ll 1e19
-const int maxn = 1005;
-ll n, k;
+typedef unsigned long long ull;
+const ll inff = 0x3f3f3f3f3f3f3f3f;
+#define FOR(i,a,b) for(int i(a);i<=(b);++i)
+#define FOL(i,a,b) for(int i(a);i>=(b);--i)
+#define REW(a,b) memset(a,b,sizeof(a))
+#define inf int(0x3f3f3f3f)
+#define si(a) scanf("%d",&a)
+#define sl(a) scanf("%I64d",&a)
+#define sd(a) scanf("%lf",&a)
+#define ss(a) scanf("%s",a)
+#define mod int(1e9+7)
+#define lc (d<<1)
+#define rc (d<<1|1)
+#define P pair<int,int>
+#define pi acos(-1)
+
+const int MX=1000010;
+int a[MX],b[MX]; 
+
 int main()
 {
-    cin >> n >> k;
-    cout << n + n / (k - 1) - !(n % (k - 1)) << endl;
+//    freopen("blash.in","r",stdin),freopen("blash.out","w",stdout);
+    int x,n;
+    while(scanf("%d%d",&x,&n)!=EOF)
+    {
+        int tot=1,la=0,lb=0,ra=1,rb=1;
+        while(1)
+        {
+            if(tot==n) {
+                printf("%d\n",x);
+                break;
+            }
+            a[++la]=2*x+1;
+            b[++lb]=3*x+1;
+            if(a[ra]<b[rb]) {
+                x=a[ra++];
+            }
+            else if(b[rb]<a[ra]) {
+                x=b[rb++];
+            }
+            else {
+                x=a[ra++];
+                rb++;
+            }
+            tot++;
+        }
+    }
     return 0;
 }
+
 
